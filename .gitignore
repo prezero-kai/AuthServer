@@ -1,0 +1,15 @@
+﻿################################################################################
+# 此 .gitignore 文件已由 Microsoft(R) Visual Studio 自动创建。
+################################################################################
+
+/.vs
+/authorization_code/.vs/Ids/config
+/authorization_code/.vs/Ids/DesignTimeBuild
+/authorization_code/.vs/Ids/v16
+/authorization_code/Ids/.vs
+/authorization_code/Ids/bin/Debug/netcoreapp3.1
+/authorization_code/Ids/obj
+/authorization_code/JavaScriptClient/obj
+/authorization_code/JavaScriptClient/bin/Debug/netcoreapp3.1
+/authorization_code/MyApi/bin/Debug/netcoreapp3.1
+/authorization_code/MyApi/obj
