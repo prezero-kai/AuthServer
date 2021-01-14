@@ -48,7 +48,6 @@ namespace Ids
                 // see https://identityserver4.readthedocs.io/en/latest/topics/resources.html
                 options.EmitStaticAudienceClaim = true;
             })
-            .AddTestUsers(TestUsers.Users)
             .AddConfigurationStore(options =>
             {
                 options.ConfigureDbContext = b => b.UseSqlServer(connectionString,
@@ -58,13 +57,15 @@ namespace Ids
             {
                 options.ConfigureDbContext = b => b.UseSqlServer(connectionString,
                     sql => sql.MigrationsAssembly(migrationsAssembly));
-            });
+            })
+            .AddResourceOwnerValidator<ResourceOwnerPasswordValidator>();//注入自定义用户登录验证
+            #region in-memory
             // in-memory, code config
             //builder.AddInMemoryIdentityResources(Config.IdentityResources);
             //builder.AddInMemoryApiScopes(Config.ApiScopes);
             //builder.AddInMemoryClients(Config.Clients);
             //builder.AddInMemoryApiResources(Config.ApiResources);
-
+            #endregion
             // not recommended for production - you need to store your key material somewhere secure
             builder.AddDeveloperSigningCredential();
 

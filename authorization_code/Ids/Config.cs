@@ -64,11 +64,17 @@ namespace Ids
                 {
                     ClientId = "client.password",
                     AllowedGrantTypes = GrantTypes.ResourceOwnerPassword,
-
                     ClientSecrets =
                     {
                         new Secret("secret".Sha256())
                     },
+                    AccessTokenLifetime = 1800,//设置AccessToken过期时间
+                    //RefreshTokenExpiration = TokenExpiration.Absolute,//刷新令牌将在固定时间点到期
+                    AbsoluteRefreshTokenLifetime = 2592000,//RefreshToken的最长生命周期,默认30天
+                    RefreshTokenExpiration = TokenExpiration.Sliding,//刷新令牌时，将刷新RefreshToken的生命周期。RefreshToken的总生命周期不会超过AbsoluteRefreshTokenLifetime。
+                    SlidingRefreshTokenLifetime = 3600,//以秒为单位滑动刷新令牌的生命周期。
+                    //按照现有的设置，如果3600内没有使用RefreshToken，那么RefreshToken将失效。即便是在3600内一直有使用RefreshToken，RefreshToken的总生命周期不会超过30天。所有的时间都可以按实际需求调整。
+                    AllowOfflineAccess = true,//如果要获取refresh_tokens ,必须把AllowOfflineAccess设置为true
                     AllowedScopes = { "scope1","api.weather.scope", "api.test.scope" }
                 },
 
