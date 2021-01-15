@@ -40,6 +40,17 @@ namespace Ids
                     AllowedScopes = { "scope1", "api.weather.scope", "api.test.scope" }
                 },
 
+                new Client
+                {
+                    ClientId = "m2m.short",
+                    ClientName = "Machine to machine with short access token lifetime (client credentials)",
+                    AllowedGrantTypes = GrantTypes.ClientCredentials,
+                    ClientSecrets = { new Secret("511536EF-F270-4058-80CA-1C89C192F69A".Sha256()) },
+
+                    AllowedScopes = { "scope1", "api.weather.scope", "api.test.scope" },
+                    AccessTokenLifetime = 75
+                },
+
                 // interactive client using code flow + pkce
                 new Client
                 {
@@ -52,12 +63,14 @@ namespace Ids
                     FrontChannelLogoutUri = "https://localhost:5001/signout-oidc",
                     PostLogoutRedirectUris = { "https://localhost:5001/signout-callback-oidc" },
 
-                    AllowOfflineAccess = true,
                     AllowedScopes = new List<string>{
                         IdentityServerConstants.StandardScopes.OpenId,
                         IdentityServerConstants.StandardScopes.Profile,
                         "scope1","api.weather.scope", "api.test.scope"
-                    }
+                    },
+                    AllowOfflineAccess = true,
+                    RefreshTokenUsage = TokenUsage.ReUse,
+                    RefreshTokenExpiration = TokenExpiration.Sliding
                 },
 
                 new Client
