@@ -18,6 +18,7 @@ using IdentityServer4.Services;
 using IdentityServer4.Validation;
 using IdentityServerHost.Quickstart.UI;
 using Ids.DbContexts;
+using Ids.Extensions;
 using Ids.Service;
 using Microsoft.AspNetCore.Authentication.Certificate;
 using Microsoft.AspNetCore.Builder;
@@ -118,6 +119,8 @@ namespace Ids
                         .AllowAnyMethod();
                 });
             });
+
+            services.ConfigureNonBreakingSameSiteCookies();
         }
 
         public void Configure(IApplicationBuilder app)
