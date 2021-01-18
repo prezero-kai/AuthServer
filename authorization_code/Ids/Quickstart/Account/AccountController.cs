@@ -113,59 +113,67 @@ namespace IdentityServerHost.Quickstart.UI
             if (ModelState.IsValid)
             {
                 var user = await _userManager.FindByNameAsync(model.Username);
-                var validate = _passwordHasher.VerifyHashedPassword(user, user.PasswordHash, model.Password);
-                // validate username/password against in-memory store
-                if (user.UserName == model.Username && validate == PasswordVerificationResult.Success)
+                if (user == null)
                 {
-                    await _events.RaiseAsync(new UserLoginSuccessEvent(user.UserName,user.Id ,user.UserName, clientId: context?.Client.ClientId));
-                    // only set explicit expiration here if user chooses "remember me". 
-                    // otherwise we rely upon expiration configured in cookie middleware.
-                    AuthenticationProperties props = null;
-                    if (AccountOptions.AllowRememberLogin && model.RememberLogin)
+                    ModelState.AddModelError(nameof(model.Username), $"”√ªß√˚ {model.Username} not exists");
+                }
+                else
+                {
+                    // validate username/password against in-memory store
+                    if (await _userManager.CheckPasswordAsync(user, model.Password))
                     {
-                        props = new AuthenticationProperties
+                        await _events.RaiseAsync(new UserLoginSuccessEvent(user.UserName, user.Id, user.UserName, clientId: context?.Client.ClientId));
+                        // only set explicit expiration here if user chooses "remember me". 
+                        // otherwise we rely upon expiration configured in cookie middleware.
+                        AuthenticationProperties props = null;
+                        if (AccountOptions.AllowRememberLogin && model.RememberLogin)
                         {
-                            IsPersistent = true,
-                            ExpiresUtc = DateTimeOffset.UtcNow.Add(AccountOptions.RememberMeLoginDuration)
+                            props = new AuthenticationProperties
+                            {
+                                IsPersistent = true,
+                                ExpiresUtc = DateTimeOffset.UtcNow.Add(AccountOptions.RememberMeLoginDuration)
+                            };
                         };
-                    };
 
-                    // issue authentication cookie with subject ID and username
-                    var isuser = new IdentityServerUser(user.Id)
-                    {
-                        DisplayName = user.UserName
-                    };
-
-                    await HttpContext.SignInAsync(isuser, props);
-
-                    if (context != null)
-                    {
-                        if (context.IsNativeClient())
+                        // issue authentication cookie with subject ID and username
+                        var isuser = new IdentityServerUser(user.Id)
                         {
-                            // The client is native, so this change in how to
-                            // return the response is for better UX for the end user.
-                            return this.LoadingPage("Redirect", model.ReturnUrl);
+                            DisplayName = user.UserName
+                        };
+
+                        await HttpContext.SignInAsync(isuser, props);
+
+                        if (context != null)
+                        {
+                            if (context.IsNativeClient())
+                            {
+                                // The client is native, so this change in how to
+                                // return the response is for better UX for the end user.
+                                return this.LoadingPage("Redirect", model.ReturnUrl);
+                            }
+
+                            // we can trust model.ReturnUrl since GetAuthorizationContextAsync returned non-null
+                            return Redirect(model.ReturnUrl);
                         }
 
-                        // we can trust model.ReturnUrl since GetAuthorizationContextAsync returned non-null
-                        return Redirect(model.ReturnUrl);
+                        // request for a local page
+                        if (Url.IsLocalUrl(model.ReturnUrl))
+                        {
+                            return Redirect(model.ReturnUrl);
+                        }
+                        else if (string.IsNullOrEmpty(model.ReturnUrl))
+                        {
+                            return Redirect("~/");
+                        }
+                        else
+                        {
+                            // user might have clicked on a malicious link - should be logged
+                            throw new Exception("invalid return URL");
+                        }
                     }
-
-                    // request for a local page
-                    if (Url.IsLocalUrl(model.ReturnUrl))
-                    {
-                        return Redirect(model.ReturnUrl);
-                    }
-                    else if (string.IsNullOrEmpty(model.ReturnUrl))
-                    {
-                        return Redirect("~/");
-                    }
-                    else
-                    {
-                        // user might have clicked on a malicious link - should be logged
-                        throw new Exception("invalid return URL");
-                    }
+                    ModelState.AddModelError(nameof(model.Password), "√‹¬Î¥ÌŒÛ");
                 }
+                
 
                 await _events.RaiseAsync(new UserLoginFailureEvent(model.Username, "invalid credentials", clientId:context?.Client.ClientId));
                 ModelState.AddModelError(string.Empty, AccountOptions.InvalidCredentialsErrorMessage);

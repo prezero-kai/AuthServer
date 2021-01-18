@@ -3,6 +3,7 @@
 
 
 using System.Collections.Generic;
+using IdentityModel;
 using IdentityServer4;
 using IdentityServer4.Models;
 
@@ -88,7 +89,13 @@ namespace Ids
                     SlidingRefreshTokenLifetime = 3600,//以秒为单位滑动刷新令牌的生命周期。
                     //按照现有的设置，如果3600内没有使用RefreshToken，那么RefreshToken将失效。即便是在3600内一直有使用RefreshToken，RefreshToken的总生命周期不会超过30天。所有的时间都可以按实际需求调整。
                     AllowOfflineAccess = true,//如果要获取refresh_tokens ,必须把AllowOfflineAccess设置为true
-                    AllowedScopes = { "scope1","api.weather.scope", "api.test.scope" }
+                    AllowedScopes = new List<string>
+                    {
+                        OidcConstants.StandardScopes.OfflineAccess, //如果要获取refresh_tokens ,必须在scopes中加上OfflineAccess
+                        OidcConstants.StandardScopes.OpenId,
+                        OidcConstants.StandardScopes.Profile,
+                        "scope1","api.weather.scope", "api.test.scope"
+                    }
                 },
 
                 // JavaScript Client

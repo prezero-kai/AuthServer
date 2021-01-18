@@ -19,9 +19,8 @@ namespace Ids
         public async Task ValidateAsync(ResourceOwnerPasswordValidationContext context)
         {
             var user = await _userManager.FindByNameAsync(context.UserName);
-            var validate = _passwordHasher.VerifyHashedPassword(user, user.PasswordHash, context.Password);
             //根据context.UserName和context.Password与数据库的数据做校验，判断是否合法
-            if (context.UserName == user.UserName && validate == PasswordVerificationResult.Success)
+            if (user != null && await _userManager.CheckPasswordAsync(user, context.Password))
             {
                 context.Result = new GrantValidationResult(
                     subject: context.UserName,

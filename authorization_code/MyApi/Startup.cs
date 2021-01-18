@@ -35,7 +35,16 @@ namespace MyApi
                         IdentityModelEventSource.ShowPII = true;
                         options.TokenValidationParameters = new TokenValidationParameters
                         {
-                            ValidateAudience = false
+                            //是否秘钥认证
+                            ValidateIssuerSigningKey = true,
+                            //是否验证发行人
+                            ValidateIssuer = true,
+                            //是否验证订阅
+                            ValidateAudience = true,
+
+                            //是否验证过期时间
+                            RequireExpirationTime = true,
+                            ValidateLifetime = true
                         };
                     });
             services.AddAuthorization(options =>
@@ -53,6 +62,15 @@ namespace MyApi
                     builder.RequireScope("api.test.scope");
                 });
             });
+
+            services.AddCors(options =>
+            {
+                // this defines a CORS policy called "default"
+                options.AddPolicy("default", policy =>
+                {
+                    policy.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin();
+                });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -66,6 +84,8 @@ namespace MyApi
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseCors("default");
 
             //身份验证
             app.UseAuthentication();
