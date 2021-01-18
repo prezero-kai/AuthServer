@@ -1,2 +1,6 @@
 dotnet new -i IdentityServer4.Templates
 dotnet new is4inmem --name Ids
+
+
+
+consul.exe agent -dev

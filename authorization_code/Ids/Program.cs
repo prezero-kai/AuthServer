@@ -4,6 +4,7 @@
 
 using System;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Serilog;
 using Serilog.Events;
@@ -24,7 +25,7 @@ namespace Ids
                 .Enrich.FromLogContext()
                 // uncomment to write to Azure diagnostics stream
                 .WriteTo.File(
-                    @"D:\LogFiles\identityserver.txt",
+                    @"D:\LogFiles\gateway.txt",
                     fileSizeLimitBytes: 1_000_000,
                     rollOnFileSizeLimit: true,
                     shared: true,
@@ -52,6 +53,10 @@ namespace Ids
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
                 .UseSerilog()
+                .ConfigureAppConfiguration((hostingContext, config) =>
+                {
+                    config.AddJsonFile("ocelot.json");
+                })
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
