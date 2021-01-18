@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Web.MVC.Helper;
 
 namespace Web.MVC
 {
@@ -24,6 +25,8 @@ namespace Web.MVC
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+            //×¢ÈëIServiceHelper
+            services.AddSingleton<IServiceHelper, ServiceHelper>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

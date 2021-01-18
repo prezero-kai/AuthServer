@@ -1,0 +1,9 @@
+docker build -t orderapi:1.0 -f ./Order.API/Dockerfile .
+docker run -d -p 9060:80 --name orderservice orderapi:1.0 --ConsulSetting:ServicePort="9060"
+docker run -d -p 9061:80 --name orderservice1 orderapi:1.0 --ConsulSetting:ServicePort="9061"
+docker run -d -p 9062:80 --name orderservice2 orderapi:1.0 --ConsulSetting:ServicePort="9062"
+
+docker build -t productapi:1.0 -f ./Product.API/Dockerfile .
+docker run -d -p 9050:80 --name productservice productapi:1.0 --ConsulSetting:ServicePort="9050"
+docker run -d -p 9051:80 --name productservice1 productapi:1.0 --ConsulSetting:ServicePort="9051"
+docker run -d -p 9052:80 --name productservice2 productapi:1.0 --ConsulSetting:ServicePort="9052"

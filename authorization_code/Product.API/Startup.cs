@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Product.API.Extentions;
 
 namespace Product.API
 {
@@ -29,7 +30,7 @@ namespace Product.API
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IHostApplicationLifetime lifetime)
         {
             if (env.IsDevelopment())
             {
@@ -46,6 +47,9 @@ namespace Product.API
             {
                 endpoints.MapControllers();
             });
+
+            //ЗўЮёзЂВс
+            app.RegisterConsul(Configuration, lifetime);
         }
     }
 }

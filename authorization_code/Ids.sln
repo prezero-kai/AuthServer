@@ -16,6 +16,9 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Gateways", "Gateways", "{6B14EADF-7549-472A-B81D-F1BED4D4377E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{98CACEB2-1734-4AD1-8373-D02972C50061}"
+	ProjectSection(SolutionItems) = preProject
+		Docker.txt = Docker.txt
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ocelot.APIGateway", "Ocelot.APIGateway\Ocelot.APIGateway.csproj", "{6322DE70-2DB8-4C42-8763-30824C5B6379}"
 EndProject
