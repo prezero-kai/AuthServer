@@ -7,6 +7,7 @@ using Ocelot.Cache.CacheManager;
 using Ocelot.DependencyInjection;
 using Ocelot.Middleware;
 using Ocelot.Provider.Consul;
+using Ocelot.Provider.Polly;
 
 namespace Ocelot.APIGateway
 {
@@ -31,7 +32,9 @@ namespace Ocelot.APIGateway
                 .AddCacheManager(x =>
                 {
                     x.WithDictionaryHandle();
-                });
+                })
+                //Ìí¼ÓPolly
+                .AddPolly(); ;
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

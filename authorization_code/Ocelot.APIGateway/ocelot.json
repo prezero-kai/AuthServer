@@ -60,6 +60,11 @@
       "QuotaExceededMessage": "too many requests...",
       "HttpStatusCode": 999,
       "ClientIdHeader": "Test"
+    },
+    "QoSOptions": {
+      "ExceptionsAllowedBeforeBreaking": 3, //3次错误
+      "DurationOfBreak": 10000, //熔断时间
+      "TimeoutValue": 5000 //超时时间
     }
   }
 }
