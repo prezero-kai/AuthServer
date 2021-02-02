@@ -10,6 +10,17 @@
       ],
       "LoadBalancerOptions": {
         "Type": "RoundRobin" //负载均衡，轮询机制 LeastConnection/RoundRobin/NoLoadBalancer/CookieStickySessions
+      },
+      "FileCacheOptions": {
+        "TtlSeconds": 5,
+        "Region": "regionname"
+      },
+      "RateLimitOptions": {
+        "ClientWhitelist": [ "SuperClient" ],
+        "EnableRateLimiting": true,
+        "Period": "5s",
+        "PeriodTimespan": 2,
+        "Limit": 1
       }
     },
     {
@@ -22,6 +33,17 @@
       ],
       "LoadBalancerOptions": {
         "Type": "RoundRobin" //负载均衡，轮询机制 LeastConnection/RoundRobin/NoLoadBalancer/CookieStickySessions
+      },
+      "FileCacheOptions": {
+        "TtlSeconds": 5,
+        "Region": "regionname"
+      },
+      "RateLimitOptions": {
+        "ClientWhitelist": [ "SuperClient" ],
+        "EnableRateLimiting": true,
+        "Period": "5s",
+        "PeriodTimespan": 2,
+        "Limit": 1
       }
     }
   ],
@@ -32,6 +54,12 @@
       "Host": "localhost",
       "Port": 8500,
       "Type": "Consul"
+    },
+    "RateLimitOptions": {
+      "DisableRateLimitHeaders": false,
+      "QuotaExceededMessage": "too many requests...",
+      "HttpStatusCode": 999,
+      "ClientIdHeader": "Test"
     }
   }
 }

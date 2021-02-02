@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Ocelot.Cache.CacheManager;
 using Ocelot.DependencyInjection;
 using Ocelot.Middleware;
 using Ocelot.Provider.Consul;
@@ -23,7 +24,14 @@ namespace Ocelot.APIGateway
         {
             services.AddControllers();
             //添加ocelot服务
-            services.AddOcelot().AddConsul();
+            services.AddOcelot()
+                //添加consul支持
+                .AddConsul()
+                //添加缓存
+                .AddCacheManager(x =>
+                {
+                    x.WithDictionaryHandle();
+                });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
