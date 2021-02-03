@@ -24,6 +24,9 @@ namespace Ids
                 new ApiScope("scope1"),
                 new ApiScope("api.weather.scope"),
                 new ApiScope("api.test.scope"),
+                new ApiScope("orderApiScope"),
+                new ApiScope("productApiScope"),
+
             };
 
         public static IEnumerable<Client> Clients =>
@@ -116,6 +119,30 @@ namespace Ids
                         IdentityServerConstants.StandardScopes.Profile,
                         "openid", "profile", "scope1", "api.weather.scope", "api.test.scope"
                     }
+                },
+
+                //Mvc Client
+                new Client
+                {
+                    ClientId = "mvc",
+                    ClientName = "Web Client",
+
+                    AllowedGrantTypes = GrantTypes.Code,
+                    ClientSecrets = { new Secret("secret".Sha256()) },
+
+                    RedirectUris = { "https://localhost:5009/signin-oidc" },
+                    FrontChannelLogoutUri = "https://localhost:5009/signout-oidc",
+                    PostLogoutRedirectUris = { "https://localhost:5009/signout-callback-oidc" },
+
+                    AllowedScopes = new [] {
+                        IdentityServerConstants.StandardScopes.OpenId,
+                        IdentityServerConstants.StandardScopes.Profile,
+                        "orderApiScope", "productApiScope"
+                    },
+                    AllowAccessTokensViaBrowser = true,
+
+                    RequireConsent = true,//是否显示同意界面
+                    AllowRememberConsent = false,//是否记住同意选项
                 }
             };
 
@@ -126,6 +153,16 @@ namespace Ids
                 {
                     Scopes = { "scope1", "api.weather.scope", "api.test.scope" }
                 },
+                new ApiResource("orderApi","订单服务")
+                {
+                    ApiSecrets ={ new Secret("orderApi secret".Sha256()) },
+                    Scopes = { "orderApiScope" }
+                },
+                new ApiResource("productApi","产品服务")
+                {
+                    ApiSecrets ={ new Secret("productApi secret".Sha256()) },
+                    Scopes = { "productApiScope" }
+                }
             };
     }
 }

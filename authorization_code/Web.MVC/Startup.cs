@@ -1,13 +1,9 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Microsoft.IdentityModel.Logging;
 using Web.MVC.Helper;
 
 namespace Web.MVC
@@ -25,8 +21,29 @@ namespace Web.MVC
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+            services.AddAuthentication(options =>
+                {
+                    options.DefaultScheme = "Cookies";
+                    options.DefaultChallengeScheme = "oidc";
+                })
+                .AddCookie("Cookies")
+                .AddOpenIdConnect("oidc", options =>
+                {
+                    //options.Authority = "http://localhost:9070";
+                    options.Authority = "https://localhost:5001";
+
+                    options.ClientId = "mvc";
+                    options.ClientSecret = "secret";
+                    options.ResponseType = "code";
+
+                    options.Scope.Add("orderApiScope");
+                    options.Scope.Add("productApiScope");
+                    options.RequireHttpsMetadata = false;
+                    options.SaveTokens = true;
+                });
             //×¢ÈëIServiceHelper
             //services.AddSingleton<IServiceHelper, ServiceHelper>();
+
             services.AddSingleton<IServiceHelper, GatewayServiceHelper>();
         }
 
@@ -48,6 +65,7 @@ namespace Web.MVC
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
@@ -56,6 +74,8 @@ namespace Web.MVC
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
             });
+
+            IdentityModelEventSource.ShowPII = true;
         }
     }
 }

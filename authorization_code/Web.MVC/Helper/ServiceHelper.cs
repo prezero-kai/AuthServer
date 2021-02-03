@@ -66,5 +66,15 @@ namespace Web.MVC.Helper
             var response = await client.ExecuteAsync(request);
             return response.Content;
         }
+
+        public async Task<string> GetProduct(string accessToken)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<string> GetOrder(string accessToken)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

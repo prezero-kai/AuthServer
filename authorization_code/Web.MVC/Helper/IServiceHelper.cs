@@ -11,12 +11,12 @@ namespace Web.MVC.Helper
         /// 获取产品数据
         /// </summary>
         /// <returns></returns>
-        Task<string> GetProduct();
+        Task<string> GetProduct(string accessToken);
 
         /// <summary>
         /// 获取订单数据
         /// </summary>
         /// <returns></returns>
-        Task<string> GetOrder();
+        Task<string> GetOrder(string accessToken);
     }
 }

@@ -11,19 +11,21 @@ namespace Web.MVC.Helper
     /// </summary>
     public class GatewayServiceHelper : IServiceHelper
     {
-        public async Task<string> GetOrder()
+        public async Task<string> GetOrder(string accessToken)
         {
             var Client = new RestClient("http://localhost:9070");
             var request = new RestRequest("/order", Method.GET);
+            request.AddHeader("Authorization", "Bearer " + accessToken);
 
             var response = await Client.ExecuteAsync(request);
             return response.Content;
         }
 
-        public async Task<string> GetProduct()
+        public async Task<string> GetProduct(string accessToken)
         {
             var Client = new RestClient("http://localhost:9070");
             var request = new RestRequest("/product", Method.GET);
+            request.AddHeader("Authorization", "Bearer " + accessToken);
 
             var response = await Client.ExecuteAsync(request);
             return response.Content;

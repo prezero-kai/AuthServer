@@ -14,7 +14,8 @@
       "launchBrowser": true,
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
-      }
+      },
+      "applicationUrl": "http://localhost:9070"
     },
     "Ocelot.APIGateway": {
       "commandName": "Project",

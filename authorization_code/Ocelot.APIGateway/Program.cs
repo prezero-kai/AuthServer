@@ -25,7 +25,7 @@ namespace Ocelot.APIGateway
                 .Enrich.FromLogContext()
                 // uncomment to write to Azure diagnostics stream
                 .WriteTo.File(
-                    @"D:\LogFiles\identityserver.txt",
+                    @"D:\LogFiles\gateway.txt",
                     fileSizeLimitBytes: 1_000_000,
                     rollOnFileSizeLimit: true,
                     shared: true,

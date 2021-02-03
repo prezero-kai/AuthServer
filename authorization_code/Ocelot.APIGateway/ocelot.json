@@ -5,9 +5,11 @@
       "DownstreamScheme": "http",
       "ServiceName": "ProductService",
       "UpstreamPathTemplate": "/product",
-      "UpstreamHttpMethod": [
-        "Get"
-      ],
+      "UpstreamHttpMethod": ["Get"],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "productService",
+        "AllowScopes": []
+      },
       "LoadBalancerOptions": {
         "Type": "RoundRobin" //负载均衡，轮询机制 LeastConnection/RoundRobin/NoLoadBalancer/CookieStickySessions
       },
@@ -28,9 +30,11 @@
       "DownstreamScheme": "http",
       "ServiceName": "OrderService",
       "UpstreamPathTemplate": "/order",
-      "UpstreamHttpMethod": [
-        "Get"
-      ],
+      "UpstreamHttpMethod": [ "Get" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "orderService",
+        "AllowScopes": []
+      },
       "LoadBalancerOptions": {
         "Type": "RoundRobin" //负载均衡，轮询机制 LeastConnection/RoundRobin/NoLoadBalancer/CookieStickySessions
       },
@@ -44,6 +48,24 @@
         "Period": "5s",
         "PeriodTimespan": 2,
         "Limit": 1
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/{url}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5001
+        }
+      ],
+      "UpstreamPathTemplate": "/{url}",
+      "UpstreamHttpMethod": [
+        "Get",
+        "Post"
+      ],
+      "LoadBalancerOptions": {
+        "Type": "RoundRobin"
       }
     }
   ],
