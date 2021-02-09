@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.OpenApi.Models;
 using Ocelot.Cache.CacheManager;
 using Ocelot.DependencyInjection;
 using Ocelot.Middleware;
@@ -24,6 +25,12 @@ namespace Ocelot.APIGateway
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1",
+                    new OpenApiInfo { Title = "Gateway API", Version = "v1", Description = "# gateway api..." });
+            });
+
             services.AddControllers();
             services.AddAuthentication(IdentityServerAuthenticationDefaults.AuthenticationScheme)
                 .AddIdentityServerAuthentication("orderService", options =>
@@ -64,6 +71,13 @@ namespace Ocelot.APIGateway
             }
 
             app.UseHttpsRedirection();
+
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/order/swagger/v1/swagger.json", "Order API V1");
+                c.SwaggerEndpoint("/product/swagger/v1/swagger.json", "Product API V1");
+            });
 
             app.UseRouting();
 

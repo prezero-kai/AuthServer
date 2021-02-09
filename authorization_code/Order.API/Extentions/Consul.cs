@@ -29,7 +29,6 @@ namespace Order.API.Extentions
                 ID = Guid.NewGuid().ToString(),//服务实例唯一标识
                 Name = configuration["ConsulSetting:ServiceName"],//服务名
                 Address = configuration["ConsulSetting:ServiceIP"], //服务IP
-                Port = int.Parse(configuration["ConsulSetting:ServicePort"]),//服务端口 因为要运行多个实例，端口不能在appsettings.json里配置，在docker容器运行时传入
                 Check = new AgentServiceCheck()
                 {
                     DeregisterCriticalServiceAfter = TimeSpan.FromSeconds(5),//服务启动多久后注册

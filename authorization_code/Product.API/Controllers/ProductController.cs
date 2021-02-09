@@ -19,6 +19,7 @@ namespace Product.API.Controllers
             _logger = logger;
         }
 
+        [HttpGet]
         public IActionResult Get()
         {
             var result = $"【产品服务】{DateTime.Now:yyyy-MM-dd HH:mm:ss}——" +
