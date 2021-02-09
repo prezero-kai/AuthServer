@@ -19,6 +19,7 @@ namespace Order.API.Controllers
             _logger = logger;
         }
 
+        [HttpGet]
         public IActionResult Get()
         {
             var result = $"【订单服务】{DateTime.Now:yyyy-MM-dd HH:mm:ss}——" + 
