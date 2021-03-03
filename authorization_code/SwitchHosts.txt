@@ -1,0 +1,6 @@
+127.0.0.1 host.docker.internal consul apigateway
+192.168.65.138	gitlab.kai.com harbor.kai.com
+192.168.65.140	swarmnode2.kai.com
+192.168.65.141	swarmnode1.kai.com
+192.168.65.142	swarmmanage.kai.com
+192.168.65.132	canal.kai.com

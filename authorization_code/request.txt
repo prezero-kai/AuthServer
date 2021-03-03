@@ -1,0 +1,38 @@
+----client_credentials----
+var client = new RestClient("http://localhost:5001/connect/token");
+client.Timeout = -1;
+var request = new RestRequest(Method.POST);
+request.AddHeader("Content-Type", "application/x-www-form-urlencoded");
+request.AddParameter("grant_type", "client_credentials");
+request.AddParameter("client_id", "m2m.client");
+request.AddParameter("client_secret", "511536EF-F270-4058-80CA-1C89C192F69A");
+request.AddParameter("scope", "scope1");
+IRestResponse response = client.Execute(request);
+Console.WriteLine(response.Content);
+
+----user_paaaword----
+var client = new RestClient("https://localhost:5001/connect/token");
+client.Timeout = -1;
+var request = new RestRequest(Method.POST);
+request.AddHeader("Content-Type", "application/x-www-form-urlencoded");
+request.AddParameter("grant_type", "password");
+request.AddParameter("client_id", "client.password");
+request.AddParameter("client_secret", "secret");
+request.AddParameter("scope", "");
+request.AddParameter("username", "kai");
+request.AddParameter("password", "123456");
+IRestResponse response = client.Execute(request);
+Console.WriteLine(response.Content);
+
+----refresh_token----
+var client = new RestClient("https://localhost:5001/connect/token");
+client.Timeout = -1;
+var request = new RestRequest(Method.POST);
+request.AddHeader("Content-Type", "application/x-www-form-urlencoded");
+request.AddParameter("grant_type", "refresh_token");
+request.AddParameter("client_id", "client.password");
+request.AddParameter("client_secret", "secret");
+request.AddParameter("scope", "");
+request.AddParameter("refresh_token", "176E965F41DC2A62492A9E2CCCBDC700A06A18DBEA40EBC8E7B69C8FC3A2F0E9");
+IRestResponse response = client.Execute(request);
+Console.WriteLine(response.Content);

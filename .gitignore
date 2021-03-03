@@ -13,3 +13,12 @@
 /authorization_code/JavaScriptClient/bin/Debug/netcoreapp3.1
 /authorization_code/MyApi/bin/Debug/netcoreapp3.1
 /authorization_code/MyApi/obj
+/authorization_code/Ocelot.APIGateway/bin/Debug/netcoreapp3.1
+/authorization_code/Ocelot.APIGateway/obj/Debug/netcoreapp3.1
+/authorization_code/Ocelot.APIGateway/obj
+/authorization_code/Order.API/obj
+/authorization_code/Order.API/bin/Debug/netcoreapp3.1
+/authorization_code/Product.API/bin/Debug/netcoreapp3.1
+/authorization_code/Product.API/obj
+/authorization_code/Web.MVC/bin/Debug/netcoreapp3.1
+/authorization_code/Web.MVC/obj
